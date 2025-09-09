@@ -1,0 +1,294 @@
+<!-- Slide:  76
+- Sources
+- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations
+- Complete guide to CSS animation properties
+- Understanding keyframes and timing functions
+- Animation sub-properties and their usage
+- https://www.w3schools.com/css/css3_animations.asp
+- Simple examples and basic syntax
+- Step-by-step animation tutorials
+- Interactive examples to test concepts
+- https://css-tricks.com/almanac/properties/a/animation/
+- Practical examples and use cases
+- Common animation patterns and techniques
+- https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+- How to define animation keyframes
+- Percentage-based timing vs from/to syntax
+- https://www.w3schools.com/css/css_positioning.asp
+- Understanding absolute vs relative positioning
+- How position affects animated elements
+- https://developer.mozilla.org/en-US/docs/Web/CSS/color_value
+- Different ways to specify colors in CSS
+- Color transitions in animations
+- https://www.w3schools.com/css/css_positioning.asp
+- https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations
+- https://www.w3schools.com/css/css3_animations.asp
+- https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes
+
+- Learning
+- @keyframes rule defines the animation sequence
+- animation-name connects the keyframes to an element
+- animation-duration controls how long one cycle takes
+- animation-iteration-count determines how many times animation repeats
+- 0% represents the start of the animation
+- 100% represents the end of the animation
+- 50% represents the middle point (halfway through)
+- Can use from and to instead of 0% and 100%
+- absolute positioning allows elements to move freely
+- top property controls vertical position from the top
+- left property controls horizontal position from the left
+- Position values can be in pixels, percentages, or other units
+
+- Questions:
+- Question 1: How do I make an element move vertically on the page?
+- Question 2: How do I change colors during an animation?
+- Question 3: How do I make an animation repeat continuously?
+- Question 4: How do I control the timing of different animation stages?
+
+- Issues: 
+- Understanding Positioning Context - confused about absolute vs relative positioning
+- Need to figure out how far the square should travel
+- Want colors to change at specific points during movement
+- Want seamless looping animation without jerky transitions
+
+- Code 
+.container {
+    width: 200px;
+    height: 500px;
+    margin: 0 auto;
+    background-color: white;
+    border: 2px solid #ccc;
+    position: relative;
+}
+
+The container is 200px wide and 500px tall, centered on the page with auto margins. 
+The white background and gray border make it visible. 
+Position relative makes it a positioning context for the absolutely positioned square inside.
+
+- Square Element Styling
+.square {
+    width: 80px;
+    height: 80px;
+    background-color: red;
+    position: absolute;
+    left: 60px;
+    top: 0;
+}
+
+- The square is 80px by 80px, starting with red background. 
+Position absolute allows it to move freely within the container. 
+Left: 60px centers it horizontally (container is 200px wide, so (200-80)/2 = 60px). Top: 0 starts it at the very top.
+
+- Animation Properties
+animation-name: slideDown;
+animation-duration: 3s;
+animation-iteration-count: infinite;
+
+- animation-name connects this element to the "slideDown" keyframes
+- animation-duration makes each complete cycle take 3 seconds
+- animation-iteration-count set to infinite makes it loop continuously
+
+ Keyframes Definition
+
+@keyframes slideDown {
+    0% {
+        top: 0px;
+        background-color: red;
+    }
+    50% {
+        top: 400px;
+        background-color: blue;
+    }
+    100% {
+        top: 0px;
+        background-color: green;
+    }
+}
+
+ Animation Flow
+1. First half of animation (0% to 50%): Square slides down from top to bottom while changing from red to blue
+2. Second half of animation (50% to 100%): Square slides back up to top while changing from blue to green
+3. Loop restart: Animation begins again, but square is now green instead of red, creating continuous color progression
+------------------------------------ ------------------------------------ ------------------------------------ 
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab #7</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 200px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: white;
+            border: 2px solid #ccc;
+            position: relative;
+        }
+
+        .square {
+            width: 80px;
+            height: 80px;
+            background-color: red;
+            position: absolute;
+            left: 60px;
+            top: 0;
+            
+     
+            animation-name: slidedown;  
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+
+        
+        @keyframes slideDown {
+      
+            0% {
+                top: 0px
+                background-color: red;
+            }
+           
+            50% {
+                top: 80%;
+                background-color: blue;
+            }
+         
+            100% {
+                top: 0px;
+                background-color: green;
+            
+
+      
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+
+       
+        .square {
+            animation-duration: 1s;  
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1>Animation</h1>
+    </div>
+    
+    <div class="instructions">
+        <p>Watch the square slide from top to bottom while changing colors!</p>
+        <p>Red - Blue - Green</p>
+
+    <div class="container">
+        <div class="square"></div>
+    </div>
+
+  
+    <div>
+</body>
+</html>
+
+------------------------------------ ------------------------------------ ------------------------------------ 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab #7</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            height: 100vh;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            width: 200px;
+            height: 500px;
+            margin: 0 auto;
+            background-color: white;
+            border: 2px solid #ccc;
+            position: relative;
+        }
+
+        .square {
+            width: 80px;
+            height: 80px;
+            background-color: red;
+            position: absolute;
+            left: 60px;
+            top: 0;
+            
+            animation-name: slideDown;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+        }
+
+        @keyframes slideDown {
+            0% {
+                top: 0px;
+                background-color: red;
+            }
+            50% {
+                top: 400px;
+                background-color: blue;
+            }
+            100% {
+                top: 0px;
+                background-color: green;
+            }
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .instructions {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">
+        <h1>Animation</h1>
+    </div>
+    
+    <div class="instructions">
+        <p>Watch the square slide from top to bottom while changing colors!</p>
+        <p>Red - Blue - Green</p>
+    </div>
+
+    <div class="container">
+        <div class="square"></div>
+    </div>
+</body>
+</html>

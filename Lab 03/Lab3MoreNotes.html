@@ -1,0 +1,167 @@
+<!--  Sources: 
+Slide: 41 
+Zoom Video: https://zoom.us/rec/play/Uum9bOjhSccdlF1HkMhEQyUmCQhm_4VNisQ6OUwD4s9uLSkJgQDViQuyS0409AvsoFiNKJTf9zR1jYZ0.XgQDcrVBgIiJCkL6?eagerLoadZvaPages=sidemenu.billing.plan_management&accessLevel=meeting&canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fzoom.us%2Frec%2Fshare%2FLaC4ehbbRAAkarBDC7H1H9rc1Pov-c_qWvlX1EuLfJoE32hTr-xs8VaPrHp4aUDM.a49QI-rXpUPBNY3A
+Password: *s8xWyY2
+Timestamp: 1:00:00 
+
+HTML Template Element: https://developer.mozilla.org/en-US/docs/Web/HTML/Element/template
+cloneNode() Method: https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode
+querySelector() Method: https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector
+appendChild() Method: https://developer.mozilla.org/en-US/docs/Web/API/Node/appendChild
+
+CSS Box Shadow: https://developer.mozilla.org/en-US/docs/Web/CSS/box-shadow
+CSS Border Radius: https://developer.mozilla.org/en-US/docs/Web/CSS/border-radius
+CSS Transitions: https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+
+Array.forEach(): https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach
+Arrow Functions: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/Arrow_functions
+
+Template Literals: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals
+Function Parameters: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Functions#function_parameters
+
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards By Tabitha</title>
+    <!-- <link rel="stylesheet" href="cards.css"> -->
+
+    <style>
+        body {
+        padding: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #e3f2fd;
+        }
+    
+        .card {
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,.12);
+        background: #fff;
+        transition: box-shadow .3s ease;
+        }
+
+        .card-body{
+
+        }
+
+        .card-title {
+        font-weight: 600;
+        font-size: 3em;
+        padding: 0 0 10px 0;
+        margin: 0 0 8px 0;
+        }
+
+        .card-description {
+        font-weight: 400;
+        font-size: 2em;
+        }
+
+        .card-text {
+        font-weight: 400;
+        font-size: 1rem;
+        margin: 0;
+        } 
+
+        </style>
+
+</head>
+
+<body>
+    <template id="card-template">
+        <div class="card">
+        <div class="card-body">
+        <div class="card-title"></div>
+        <div class="card-description"></div>
+        <div class="card-text"></div>
+        </div>
+        </div>
+        </template>
+
+        <div id="card-list"></div>
+</body>
+
+<script>
+    function addCard(title, text) {
+
+    const template = document.getElementById("card-template")
+    .content.cloneNode(true);
+
+
+    template.querySelector('.card-title').innerText = title;
+    template.querySelector('.card-text').innerText = text;
+
+
+    document.querySelector('#card-list').appendChild(template);
+    }
+
+    addCard("First Card", "This is my first card!");
+    addCard("Second Card", "This is my second card.");
+    addCard("Third Card", "This is my third card!!");
+    </script>
+
+
+<!-- <script>
+    function addCard() {
+    // clone the template
+    
+    const template =
+    document.getElementById("card-template")
+    .content.cloneNode(true);
+    // populate the template
+    
+    template.querySelector('.card-title').innerText =
+    'My Card Title';
+    template.querySelector('.card-text').innerText =
+    'lorem ipsum ble bla';
+    // include the populated template into the page
+    
+    document.querySelector('#card-list')
+    .appendChild(template);
+    }
+    addCard();
+
+--------------------------------------------------------------
+    function addCard(title, text) {
+
+    const template = document.getElementById("card-template")
+    .content.cloneNode(true);
+
+
+    template.querySelector('.card-title').innerText = title;
+    template.querySelector('.card-text').innerText = text;
+
+
+    document.querySelector('#card-list').appendChild(template);
+    }
+
+    addCard("First Card", "This is my first card!");
+    addCard("Second Card", "This is my second card.");
+    addCard("Third Card", "This is my third card!!");
+
+
+--------------------------------------------------------------
+
+
+    function addCard(title, text) {
+      const template = document.getElementById("card-template")
+        .content.cloneNode(true);
+
+      template.querySelector(".card-title").innerText = title;
+      template.querySelector(".card-text").innerText = text;
+
+      document.getElementById("card-list").appendChild(template);
+    }
+
+    // Examples
+    addCard("First Card", "This is my first card!");
+    addCard("Second Card", "This is my second card.");
+    addCard("Third Card", "This is my third card!!");
+
+    </script> -->
+
+</html>

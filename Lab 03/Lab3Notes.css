@@ -1,0 +1,97 @@
+/* Page
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #e3f2fd;
+    margin: 0;
+  }
+  
+  /* Grid for cards */
+  /* .card-grid {
+    display: grid;
+    gap: 16px;
+    padding: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  
+  /* Card */
+  /* .card {
+    width: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.12);
+    background: #fff;
+    transition: box-shadow .3s ease;
+  }
+  
+  .card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,.16);
+  }
+  
+  .card-body {
+    padding: 16px;
+  } */
+  
+  /* Title & text */
+  /* .card-title {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin: 0 0 8px 0;
+  }
+  
+  .card-text {
+    font-weight: 400;
+    font-size: 1rem;
+    margin: 0;
+  }  */
+  
+  /* (Optional) If you later wrap content in .container */
+  /* .container {
+    padding: 2px 16px;
+    display: flex;
+  } */ 
+  
+
+  /* 3.)  */
+  
+  
+  /* Layout */
+  .artist-grid {
+    display: grid;
+    gap: 24px;
+    padding: 20px;
+  }
+  
+  /* Profile card spans full width on small screens */
+  .artist-profile {
+    background: #fff;
+  }
+  
+  /* Card visuals */
+  .card {
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,.12);
+    transition: box-shadow .3s ease;
+  }
+  .card:hover { box-shadow: 0 10px 20px rgba(0,0,0,.16); }
+  
+  .card-body { padding: 16px; }
+  
+  .card-title { margin: 0 0 8px; }
+  
+  /* Images */
+  .card-img {
+    display: block;
+    width: 100%;
+    height: 220px;          /* nice consistent thumbnail height */
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+  }
+  
+  /* Optional: grid for portfolio under each profile */
+  .portfolio-grid {
+    display: grid;
+    gap: 16px;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  

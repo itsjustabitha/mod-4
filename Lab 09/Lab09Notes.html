@@ -1,0 +1,137 @@
+<!-- Slide:  97 
+
+- Sources
+- https://echarts.apache.org/en/index.html
+- https://echarts.apache.org/handbook/en/get-started/
+- https://fakestoreapi.com/docs
+- https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API
+- https://www.w3schools.com/js/js_objects.asp
+
+- ECharts is a JavaScript charting library that creates interactive charts
+- The Fake Store API provides sample product data for testing
+- JavaScript objects can be used to count occurrences of items
+- The fetch() function returns a Promise that needs to be handled with .then()
+
+- Questions I Had During Development
+- How do I count items in each category from the API data?
+- What format does ECharts expect for the data arrays?
+- How do I update chart options after getting API data?
+- Why do I need to use .then() with fetch()?
+
+- Notes: 
+ECharts requires a div element with defined width and height
+The init() method creates the chart instance
+setOption() method displays the chart with configuration and data
+JavaScript forEach() method loops through each item in an array
+Objects can store key-value pairs where keys are category names and values are counts
+
+- Issues:
+Understanding how to process the API response data
+Learning how JavaScript objects work for counting
+Figuring out the correct order: initialize chart, fetch data, then update chart
+Making sure the data format matches what ECharts expects
+
+- Code:
+The JavaScript code works in several steps:
+First, I initialize an ECharts instance using echarts.init() and target the div with id "main". Then I create a basic options object that defines the chart structure but starts with empty data arrays.
+Next, I use fetch() to get product data from the Fake Store API. The fetch() function is asynchronous, so I use .then() to handle the response. The first .then() converts the response to JSON format.
+In the second .then(), I process the products array. I create an empty object called categoryCounts to store how many products are in each category. Using forEach(), I loop through each product and check its category. If the category already exists in my counting object, I add 1 to it. If it's new, I set it to 1.
+After counting, I use Object.keys() to get an array of category names and Object.values() to get an array of the counts. These arrays need to be in the same order, which Object.keys() and Object.values() guarantee.
+Finally, I update the chart options with the real data by setting options.xAxis.data to the categories array and options.series[0].data to the counts array. Then I call myChart.setOption(options) to display the updated chart.
+The .catch() at the end handles any errors that might occur during the fetch operation, like network problems or invalid responses.
+
+------------------------------------ ------------------------------------ ------------------------------------ 
+-->
+ 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabitha's Store Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 900px; height: 600px; margin: 20px auto;"></div>
+    
+    <script type="text/javascript">
+        
+        let myChart = echarts.init(document.getElementById('main'));
+        
+     
+        let options = {
+            title: {
+                text: 'Fake Store Categories'
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: 'Number of Products',
+                type: 'bar',
+                data: []
+            }]
+        };
+        
+      
+        fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(products => {
+           
+                let categoryCounts = {};
+                
+                products.forEach(product => {
+                    let category = product.category;
+                    if (categoryCounts[category]) {
+                        categoryCounts[category]++;
+                    } else {
+                        categoryCounts[category] = 1;
+                    }
+                });
+                
+          
+                let categories = Object.keys(categoryCounts);
+                let counts = Object.values(categoryCounts);
+                
+             
+                options.xAxis.data = categories;
+                options.series[0].data = counts;
+                
+                myChart.setOption(options);
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

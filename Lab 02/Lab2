@@ -4,6 +4,23 @@ Figma link 1 - https://www.figma.com/design/3kGEZ58C98hBs15Heqcoj8/Module-04.02-
 
 Figma link 2 - https://www.figma.com/design/9MF0CUv6qwQHLvFGfpmbhe/Cal?node-id=0-1&t=2y2ZxwIYq9is4n2P-1
 
+Calculator Created following this youtube video: https://youtu.be/LX8_z1nvqk4?si=xqg9YcXfZ5982D4T
+
+Sources Used:
+I googled and searched on youtube the following: "How to make a Calculator using HTML CSS JavaScript" 
+
+https://www.geeksforgeeks.org/javascript/javascript-calculator/
+https://www.reddit.com/r/learnjavascript/comments/12yogbq/javascript_calculator/
+https://discuss.codecademy.com/t/building-a-simple-calculator/775181
+https://forum.freecodecamp.org/t/build-a-javascript-calculator/688603
+https://stackoverflow.com/questions/77888605/javascript-create-a-calculator-and-display-the-result 
+https://youtu.be/HpYH6njumnQ?si=MjBGhonewgT1cWpo
+https://youtu.be/Fk2NBF-Le7U?si=vOKQk3mQn122j8D1
+https://youtu.be/jrRQjuYxTUY?si=BXO6DEUhs-Q-NOjV
+
+
+
+------------------------------------------------------------------------
 In this exercise you will need to create a calculator.
 
 Requirements:
@@ -34,27 +51,3 @@ things in a standard way.
 
 NOTE: Do not use the eval() function - it is a security
 risk and bypasses custom logic. -->
-
-
-
-
-
-<!-- Sources Used:
-https://www.geeksforgeeks.org/javascript/javascript-calculator/
-https://www.reddit.com/r/learnjavascript/comments/12yogbq/javascript_calculator/
-https://discuss.codecademy.com/t/building-a-simple-calculator/775181
-https://forum.freecodecamp.org/t/build-a-javascript-calculator/688603
-https://stackoverflow.com/questions/77888605/javascript-create-a-calculator-and-display-the-result 
-https://youtu.be/HpYH6njumnQ?si=MjBGhonewgT1cWpo
-https://youtu.be/Fk2NBF-Le7U?si=vOKQk3mQn122j8D1
-https://youtu.be/jrRQjuYxTUY?si=BXO6DEUhs-Q-NOjV
-https://youtu.be/LX8_z1nvqk4?si=sERcqxJRjhlc8CpF
-
-
-
-
-
-
-
-
--->

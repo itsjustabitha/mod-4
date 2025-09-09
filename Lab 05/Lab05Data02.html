@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab #5</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .news-header {
+            background: linear-gradient(135deg, #007bff, #0056b3);
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .news-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 1.5rem;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .card-title {
+            color: #2c3e50;
+            font-weight: 600;
+        }
+        
+        .card-text {
+            color: #6c757d;
+            line-height: 1.6;
+        }
+        
+        .news-id {
+            background: #007bff;
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        
+        .loading-spinner {
+            display: none;
+        }
+        
+        .loading-spinner.show {
+            display: block;
+        }
+        
+        .last-updated {
+            color: #6c757d;
+            font-size: 0.9rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .refresh-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .refresh-indicator.show {
+            opacity: 1;
+        }
+        
+        .form-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .control-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        
+        .status-indicator {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: inline-block;
+            margin: 0.5rem;
+        }
+        
+        .status-running {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-stopped {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .btn-stop {
+            background: #dc3545;
+            border-color: #dc3545;
+        }
+        
+        .btn-start {
+            background: #28a745;
+            border-color: #28a745;
+        }
+    </style>
+</head>
+
+<body>
+   
+    <div class="news-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-8">
+                    <h1 class="display-4">Tabitha's News Feed</h1>
+                    <p class="lead">Live updates every 5 seconds • Add your own news</p>
+                </div>
+                <div class="col-md-4 text-end">
+                    <div class="loading-spinner">
+                        <div class="spinner-border text-light" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+     
+        <div class="control-section">
+            <h4>News Feed Controls</h4>
+            <div class="mb-3">
+                <span id="status-indicator" class="status-indicator status-running">
+                     Auto-refresh: ON
+                </span>
+            </div>
+            <button id="toggle-refresh" class="btn btn-stop text-white">
+                 Stop Auto-Refresh
+            </button>
+        </div>
+
+     
+        <div class="form-section">
+            <h3 class="mb-4"> New News Article</h3>
+            <form id="news-form">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="news-title" class="form-label">News Title</label>
+                        <input type="text" class="form-control" id="news-title" placeholder="Enter news title..." required>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="news-content" class="form-label">News Content</label>
+                        <textarea class="form-control" id="news-content" rows="3" placeholder="Enter news content..." required></textarea>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    News Article
+                </button>
+            </form>
+        </div>
+        
+ 
+        <div class="last-updated" id="last-updated">
+            Page loaded at: <span id="update-time">Loading...</span>
+        </div>
+        
+        
+        <div id="news-container" class="row">
+          
+        </div>
+    </div>
+
+  
+    <div id="refresh-indicator" class="refresh-indicator">
+         News Updated
+    </div>
+
+  
+    <template id="news-template">
+        <div class="col-md-6 col-lg-4">
+            <div class="card news-card h-100">
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title news-title">News Title</h5>
+                        <span class="news-id">ID: 0</span>
+                    </div>
+                    <p class="card-text news-content flex-grow-1">News content goes here...</p>
+                    <small class="text-muted mt-auto">
+                        <i class="bi bi-clock"></i> Just updated
+                    </small>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script>
+       
+        let news = [
+            { 
+                id: 1, 
+                title: 'Election Results', 
+                content: "Newly elected minister announces major policy changes affecting healthcare and education sectors across the nation." 
+            },
+            { 
+                id: 2, 
+                title: 'Sporting Success', 
+                content: "World Cup winners return home to massive celebration as thousands gather in the capital to welcome their heroes." 
+            },
+            { 
+                id: 3, 
+                title: 'Tornado Warning', 
+                content: "Residents should prepare for severe weather conditions expected to hit the region within the next 24 hours." 
+            }
+        ];
+
+    
+        let refreshInterval;
+        let isRefreshRunning = true;
+        let nextNewsId = 4; 
+
+  
+        function simulateNewNews() {
+            const possibleNews = [
+                { id: nextNewsId++, title: 'Tech Innovation', content: "Revolutionary AI breakthrough promises to transform medical diagnosis accuracy by 300%." },
+                { id: nextNewsId++, title: 'Climate Update', content: "Scientists report unexpected recovery in coral reef systems following new conservation efforts." },
+                { id: nextNewsId++, title: 'Economic Growth', content: "Stock markets reach all-time highs as unemployment rates drop to historic lows nationwide." },
+                { id: nextNewsId++, title: 'Space Discovery', content: "NASA announces discovery of potentially habitable exoplanet just 20 light-years from Earth." }
+            ];
+            
+           
+            if (Math.random() < 0.3 && news.length < 7) {
+                const availableNews = possibleNews.filter(item => 
+                    !news.find(existing => existing.id === item.id)
+                );
+                if (availableNews.length > 0) {
+                    const randomNews = availableNews[Math.floor(Math.random() * availableNews.length)];
+                    news.push(randomNews);
+                    showRefreshIndicator();
+                }
+            }
+        }
+
+        function createNewsCard(newsItem) {
+          
+            const template = document.getElementById('news-template');
+            const clone = template.content.cloneNode(true);
+            
+          
+            clone.querySelector('.news-title').textContent = newsItem.title;
+            clone.querySelector('.news-content').textContent = newsItem.content;
+            clone.querySelector('.news-id').textContent = `ID: ${newsItem.id}`;
+            
+            
+            return clone;
+        }
+
+     
+        function refreshNews() {
+            if (!isRefreshRunning) return;
+            
+            console.log('🔄 Refreshing news data...');
+            
+            
+            const spinner = document.querySelector('.loading-spinner');
+            spinner.classList.add('show');
+            
+            
+            setTimeout(() => {
+             
+                const container = document.getElementById('news-container');
+                container.innerHTML = '';
+                
+               
+                simulateNewNews();
+                
+              
+                news.forEach(newsItem => {
+                    const newsCard = createNewsCard(newsItem);
+                    container.appendChild(newsCard);
+                });
+                
+              
+                updateLastUpdatedTime();
+                
+              
+                spinner.classList.remove('show');
+                
+                console.log(` News refreshed! Currently showing ${news.length} articles`);
+            }, 500); 
+        }
+
+       
+        function updateLastUpdatedTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString();
+            document.getElementById('update-time').textContent = timeString;
+        }
+
+
+        function showRefreshIndicator() {
+            const indicator = document.getElementById('refresh-indicator');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 2000);
+        }
+
+    
+        function addNewsArticle(title, content) {
+            const newArticle = {
+                id: nextNewsId++,
+                title: title,
+                content: content
+            };
+            
+            news.push(newArticle);
+            console.log(' New article added:', newArticle);
+            showRefreshIndicator();
+            
+         
+            refreshNews();
+        }
+
+     
+        function toggleRefresh() {
+            const button = document.getElementById('toggle-refresh');
+            const statusIndicator = document.getElementById('status-indicator');
+            
+            if (isRefreshRunning) {
+              
+                clearInterval(refreshInterval);
+                isRefreshRunning = false;
+                
+           
+                button.innerHTML = '▶️ Start Auto-Refresh';
+                button.className = 'btn btn-start text-white';
+                statusIndicator.innerHTML = ' Auto-refresh: OFF';
+                statusIndicator.className = 'status-indicator status-stopped';
+                
+                console.log(' Auto-refresh stopped');
+            } else {
+             
+                refreshInterval = setInterval(refreshNews, 5000);
+                isRefreshRunning = true;
+                
+              
+                button.innerHTML = ' Stop Auto-Refresh';
+                button.className = 'btn btn-stop text-white';
+                statusIndicator.innerHTML = 'Auto-refresh: ON';
+                statusIndicator.className = 'status-indicator status-running';
+                
+                console.log('▶️ Auto-refresh started');
+                
+              
+                refreshNews();
+            }
+        }
+
+      
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log(' Page loaded - initializing news feed...');
+            
+           
+            refreshNews();
+            
+        
+            refreshInterval = setInterval(refreshNews, 5000);
+            
+           
+            document.getElementById('news-form').addEventListener('submit', function(event) {
+                event.preventDefault(); 
+                
+                const titleInput = document.getElementById('news-title');
+                const contentInput = document.getElementById('news-content');
+                
+                const title = titleInput.value.trim();
+                const content = contentInput.value.trim();
+                
+                if (title && content) {
+                    addNewsArticle(title, content);
+                    
+                    
+                    titleInput.value = '';
+                    contentInput.value = '';
+                    
+                   
+                    const originalText = event.target.querySelector('button').innerHTML;
+                    event.target.querySelector('button').innerHTML = 'Article Added!';
+                    setTimeout(() => {
+                        event.target.querySelector('button').innerHTML = originalText;
+                    }, 2000);
+                } else {
+                    alert('Please fill in both title and content fields.');
+                }
+            });
+            
+            
+            document.getElementById('toggle-refresh').addEventListener('click', toggleRefresh);
+            
+            console.log(' Auto-refresh set up - news will update every 5 seconds');
+        });
+
+      
+        console.log('Initial news data:', news);
+    </script>
+
+  
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!-- Slide:  97 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tabitha's Store Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5.4.1/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="main" style="width: 900px; height: 600px; margin: 20px auto;"></div>
+    
+    <script type="text/javascript">
+        
+        let myChart = echarts.init(document.getElementById('main'));
+        
+     
+        let options = {
+            title: {
+                text: 'Fake Store Categories'
+            },
+            xAxis: {
+                data: []
+            },
+            yAxis: {},
+            series: [{
+                name: 'Number of Products',
+                type: 'bar',
+                data: []
+            }]
+        };
+        
+      
+        fetch('https://fakestoreapi.com/products')
+            .then(response => response.json())
+            .then(products => {
+           
+                let categoryCounts = {};
+                
+                products.forEach(product => {
+                    let category = product.category;
+                    if (categoryCounts[category]) {
+                        categoryCounts[category]++;
+                    } else {
+                        categoryCounts[category] = 1;
+                    }
+                });
+                
+          
+                let categories = Object.keys(categoryCounts);
+                let counts = Object.values(categoryCounts);
+                
+             
+                options.xAxis.data = categories;
+                options.series[0].data = counts;
+                
+                myChart.setOption(options);
+            })
+            .catch(error => {
+                console.log('Error fetching data:', error);
+            });
+    </script>
+</body>
+</html>

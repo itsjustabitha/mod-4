@@ -1,0 +1,150 @@
+<!-- Slide: 41 
+ 
+Zoom Video: https://zoom.us/rec/play/Uum9bOjhSccdlF1HkMhEQyUmCQhm_4VNisQ6OUwD4s9uLSkJgQDViQuyS0409AvsoFiNKJTf9zR1jYZ0.XgQDcrVBgIiJCkL6?eagerLoadZvaPages=sidemenu.billing.plan_management&accessLevel=meeting&canPlayFromShare=true&from=share_recording_detail&continueMode=true&componentName=rec-play&originRequestUrl=https%3A%2F%2Fzoom.us%2Frec%2Fshare%2FLaC4ehbbRAAkarBDC7H1H9rc1Pov-c_qWvlX1EuLfJoE32hTr-xs8VaPrHp4aUDM.a49QI-rXpUPBNY3A
+Password: *s8xWyY2
+Timestamp: 1:00:00
+
+function addCard() {
+clone the template
+const template =
+document.getElementById("card-template")
+.content.cloneNode(true);
+populate the template
+template.querySelector('.card-title').innerText =
+'My Card Title';
+template.querySelector('.card-text').innerText =
+'lorem ipsum ble bla';
+// include the populated template into the page
+document.querySelector('#card-list')
+.appendChild(template);
+}
+addCard(); 
+
+
+2.)   <script>
+    function addCard(title, text) {
+      const template = document.getElementById("card-template")
+        .content.cloneNode(true);
+
+      template.querySelector(".card-title").innerText = title;
+      template.querySelector(".card-text").innerText = text;
+
+      document.getElementById("card-list").appendChild(template);
+    }
+
+    // Examples
+    addCard("First Card", "This is my first card!");
+    addCard("Second Card", "This is my second card.");
+    addCard("Third Card", "This is my third card!!");
+    
+    
+
+3.) <script>
+  // addCard function 
+  function addCard(title, text) {
+    const template = document.getElementById("card-template")
+      .content.cloneNode(true);
+
+    template.querySelector(".card-title").innerText = title;
+    template.querySelector(".card-text").innerText = text;
+
+    document.getElementById("card-list").appendChild(template);
+  }
+
+  // Array
+  const data = [
+    { name: 'bob', age: 23 },
+    { name: 'alice', age: 39 }
+  ];
+
+
+  data.forEach(person => {
+    addCard(person.name, `Age: ${person.age}`);
+  });
+
+
+    -->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Slide 41 – Custom Templates</title>
+  <link rel="stylesheet" href="Lab3Notes.css" />
+</head>
+
+<body>
+
+  <!-- Template 
+  <template id="card-template">
+    <div class="card">
+      <div class="card-body">
+        <h3 class="card-title"></h3>
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </template> -->
+
+  <!-- Card container -->
+  <!-- <div id="card-list" class="card-grid"></div> -->
+
+
+
+  <!-- 3.) Profile + portfolio templates -->
+<template id="artist-profile-template">
+    <div class="card artist-profile">
+      <div class="card-body">
+        <h2 class="card-title"></h2>
+        <p class="card-text"></p>
+      </div>
+    </div>
+  </template>
+  
+  <template id="portfolio-card-template">
+    <div class="card">
+      <img class="card-img" alt="">
+      <div class="card-body">
+        <h3 class="card-title"></h3>
+      </div>
+    </div>
+  </template>
+  
+  <!-- Where everything goes -->
+  <div id="artists" class="artist-grid"></div>
+  
+
+
+
+
+<script>
+    // The data
+    const artist = {
+      name: "Van Gogh",
+      portfolio: [
+        { title: "portrait", url: "https://collectionapi.metmuseum.org/api/collection/v1/iiif/436532/1671316/main-image" },
+        { title: "sky", url: "https://mymodernmet.com/wp/wp-content/uploads/2020/11/White-house-night-van-goh-worldwide-2.jpg" }
+      ]
+    };
+
+    // 1. Add artist profile
+    const profile = document.getElementById("artist-profile-template").content.cloneNode(true);
+    profile.querySelector(".card-title").innerText = artist.name;
+    profile.querySelector(".card-text").innerText = "Works: " + artist.portfolio.length;
+    document.getElementById("artists").appendChild(profile);
+
+    // 2. Add each portfolio item
+    artist.portfolio.forEach(item => {
+      const card = document.getElementById("portfolio-card-template").content.cloneNode(true);
+      card.querySelector(".card-title").innerText = item.title;
+      card.querySelector(".card-img").src = item.url;
+      card.querySelector(".card-img").alt = item.title;
+      document.getElementById("artists").appendChild(card);
+    });
+  </script>
+
+
+</body>
+</html>

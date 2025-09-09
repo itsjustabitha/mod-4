@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards By Tabitha</title>
+
+    <style>
+        body {
+        padding: 16px;
+        font-family: Arial, Helvetica, sans-serif;
+        background-color: #e3f2fd;
+        }
+    
+        .card {
+        padding: 10px;
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0,0,0,.12);
+        background: #fff;
+        transition: box-shadow .3s ease;
+        margin-bottom: 20px;
+        }
+
+        /* .card-body{
+
+        } */
+
+        .card-title {
+        font-weight: 600;
+        font-size: 3em;
+        padding: 0 0 10px 0;
+        margin: 0 0 8px 0;
+        }
+
+        /* .card-description {
+        font-weight: 400;
+        font-size: 2em;
+        } */
+
+        .card-text {
+        font-weight: 400;
+        font-size: 1rem;
+        margin: 0;
+        } 
+
+        .card-img {
+        width: 100%;
+        max-width: 300px;
+        height: auto;
+        border-radius: 8px;
+        margin-bottom: 10px;
+}
+
+        </style>
+
+</head>
+
+<body>
+    <template id="artist-profile-template">
+
+        <div class="card artist-profile">
+
+          <div class="card-body">
+
+            <h2 class="card-title"></h2>
+
+            <div class="card-description"></div>
+
+            <p class="card-text"></p>
+
+          </div>
+
+        </div>
+
+      </template>
+      
+      <template id="portfolio-card-template">
+
+        <div class="card">
+
+          <img class="card-img" alt="">
+
+          <div class="card-body">
+
+            <h3 class="card-title"></h3>
+
+            <div class="card-description"></div>
+
+            <p class="card-text"></p>
+
+          </div>
+
+        </div>
+
+      </template>
+
+      <div id="artists" class="artist-grid"></div>
+
+
+</body>
+
+<script>
+
+const artist = {
+        name: "Van Gogh",
+        portfolio:[
+        {title: "portrait", url:
+    "https://collectionapi.metmuseum.org/api/collection/v1/iiif/436532/1671316/main-image"},
+
+        {title: "sky", url: "https://mymodernmet.com/wp/wp-content/uploads/2020/11/White-house-night-van-goh-worldwide-2.jpg"
+            },
+        ]
+    }
+
+    // 1. Add artist profile
+    const profile = document.getElementById("artist-profile-template").content.cloneNode(true);
+    profile.querySelector(".card-title").innerText = artist.name;
+    profile.querySelector(".card-text").innerText = "Works: " + artist.portfolio.length;
+    document.getElementById("artists").appendChild(profile);
+
+    // 2. Add each portfolio item
+    artist.portfolio.forEach(item => {
+      const card = document.getElementById("portfolio-card-template").content.cloneNode(true);
+      card.querySelector(".card-title").innerText = item.title;
+      card.querySelector(".card-img").src = item.url;
+      card.querySelector(".card-img").alt = item.title;
+      document.getElementById("artists").appendChild(card);
+    });
+
+</script>
+
+</html>

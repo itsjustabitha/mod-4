@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab #8</title>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.5.0/build/global/luxon.min.js"></script>
+    <style>
+        body { 
+            font-family: Arial, sans-serif; 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 20px; 
+        }
+        .input-group { 
+            margin-bottom: 15px; 
+        }
+        label { 
+            display: block; 
+            margin-bottom: 5px; 
+            font-weight: bold; 
+        }
+        input[type="date"] { 
+            padding: 8px; 
+            border: 1px solid #ccc; 
+            border-radius: 4px; 
+        }
+        .result { 
+            background: #f5f5f5; 
+            padding: 10px; 
+            border-radius: 4px; 
+            margin: 10px 0; 
+        }
+        button { 
+            background: #007bff; 
+            color: white; 
+            padding: 10px 20px; 
+            border: none; 
+            border-radius: 4px; 
+            cursor: pointer; 
+        }
+        button:hover { 
+            background: #0056b3; 
+        }
+    </style>
+</head>
+<body>
+    <h1>Date Calculator</h1>
+    
+    <div class="input-group">
+        <label for="birthdate">Your Birthdate:</label>
+        <input type="date" id="birthdate" value="1993-12-07">
+    </div>
+    
+    <div class="input-group">
+        <label for="dateA">Date A:</label>
+        <input type="date" id="dateA" value="2025-09-01">
+    </div>
+    
+    <div class="input-group">
+        <label for="dateB">Date B:</label>
+        <input type="date" id="dateB" value="2025-10-15">
+    </div>
+    
+    <button onclick="calculateAll()">Calculate All Results</button>
+    
+    <div id="results">
+        <h2>Results:</h2>
+        <div id="result1" class="result"></div>
+        <div id="result2" class="result"></div>
+        <div id="result3" class="result"></div>
+        <div id="result4" class="result"></div>
+        <div id="result5" class="result"></div>
+    </div>
+
+    <script>
+        const DateTime = luxon.DateTime;
+        
+        function calculateAll() {
+            const birthdate = document.getElementById('birthdate').value;
+            const dateA = document.getElementById('dateA').value;
+            const dateB = document.getElementById('dateB').value;
+            
+            calculateDaysBetween(birthdate);
+            
+            calculateDetailedAge(birthdate);
+            
+            findClosestDate(dateA, dateB);
+            
+            compareTwoDates(dateA, dateB);
+            
+            showLondonTime();
+        }
+        
+        function calculateDaysBetween(birthdateISO) {
+            const today = DateTime.now().startOf('day');
+            const birth = DateTime.fromISO(birthdateISO).startOf('day');
+            
+            if (!birth.isValid) {
+                document.getElementById('result1').innerHTML = '<strong>Problem 1:</strong> Invalid birthdate';
+                return;
+            }
+            
+            const daysDiff = today.diff(birth, 'days').days;
+            document.getElementById('result1').innerHTML = 
+                `<strong>Problem 1:</strong> ${Math.floor(daysDiff)} days between your birthdate and today`;
+        }
+        
+        function calculateDetailedAge(birthdateISO) {
+            const today = DateTime.now().startOf('day');
+            const birth = DateTime.fromISO(birthdateISO).startOf('day');
+            
+            if (!birth.isValid) {
+                document.getElementById('result2').innerHTML = '<strong>Problem 2:</strong> Invalid birthdate';
+                return;
+            }
+            
+            const years = Math.floor(today.diff(birth, 'years').years);
+            
+            const afterYears = birth.plus({ years: years });
+            const months = Math.floor(today.diff(afterYears, 'months').months);
+            
+            const afterMonths = afterYears.plus({ months: months });
+            const days = Math.floor(today.diff(afterMonths, 'days').days);
+            
+            document.getElementById('result2').innerHTML = 
+                `<strong>Problem 2:</strong> ${years} years, ${months} months, and ${days} days old`;
+        }
+        
+        function findClosestDate(dateAISO, dateBISO) {
+            const now = DateTime.now();
+            const dateA = DateTime.fromISO(dateAISO);
+            const dateB = DateTime.fromISO(dateBISO);
+            
+            if (!dateA.isValid || !dateB.isValid) {
+                document.getElementById('result3').innerHTML = '<strong>Problem 3:</strong> Invalid date(s)';
+                return;
+            }
+            
+            const diffA = Math.abs(now.diff(dateA, 'milliseconds').milliseconds);
+            const diffB = Math.abs(now.diff(dateB, 'milliseconds').milliseconds);
+            
+            let closest;
+            if (diffA < diffB) {
+                closest = dateA.toISODate() + ' (Date A)';
+            } else if (diffB < diffA) {
+                closest = dateB.toISODate() + ' (Date B)';
+            } else {
+                closest = 'Both dates are equally close';
+            }
+            
+            document.getElementById('result3').innerHTML = 
+                `<strong>Problem 3:</strong> Closest to today: ${closest}`;
+        }
+        
+        function compareTwoDates(dateAISO, dateBISO) {
+            const dateA = DateTime.fromISO(dateAISO);
+            const dateB = DateTime.fromISO(dateBISO);
+            
+            if (!dateA.isValid || !dateB.isValid) {
+                document.getElementById('result4').innerHTML = '<strong>Problem 4:</strong> Invalid date(s)';
+                return;
+            }
+            
+            let comparison;
+            if (dateA < dateB) {
+                comparison = 'Date A is before Date B';
+            } else if (dateA > dateB) {
+                comparison = 'Date A is after Date B';
+            } else {
+                comparison = 'Date A and Date B are the same';
+            }
+            
+            document.getElementById('result4').innerHTML = 
+                `<strong>Problem 4:</strong> ${comparison}`;
+        }
+        
+        function showLondonTime() {
+            const londonTime = DateTime.now().setZone('Europe/London');
+            const formatted = londonTime.toFormat('MMMM dd, yyyy - hh:mm:ss a');
+            
+            document.getElementById('result5').innerHTML = 
+                `<strong>Problem 5:</strong> Current London time: ${formatted}`;
+        }
+        
+        calculateAll();
+        
+        document.getElementById('birthdate').addEventListener('change', calculateAll);
+        document.getElementById('dateA').addEventListener('change', calculateAll);
+        document.getElementById('dateB').addEventListener('change', calculateAll);
+    </script>
+</body>
+</html>
